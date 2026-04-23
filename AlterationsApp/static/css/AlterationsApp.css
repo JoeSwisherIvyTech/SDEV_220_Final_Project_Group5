@@ -1,0 +1,25 @@
+/* temporary styling copied from blog app */
+
+.page-header{
+    background-color: #c25100;
+    margin-top: 0;
+    margin-bottom: 40px;
+    padding: 20px 20px 20px 40px;
+}
+
+.page-header h1,
+.page-header h1 a,
+.page-header h1 a:visited,
+.page-header h1 a:active
+{
+    color: #ffffff;
+    font-size: 36pt;
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4{
+    font-family: 'Lobster';
+}
