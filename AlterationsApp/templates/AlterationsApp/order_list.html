@@ -1,0 +1,23 @@
+<!-- this will be the page that lists all of the user's orders. clicking on an order will send them to order_detail -->
+ <!-- which will have more details on that specific order. exactly like the blog app we did in class -->
+
+ {% extends 'AlterationsApp/base.html' %}
+
+{% block content %}
+    <a class="btn btn-primary back-button" href="{% url 'home' %}">Back</a>
+    {% for order in orders %}
+        <article class="order">
+            <div class="card">
+                <div class="card-header">
+                    Order ID: {{ order.id }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
+                    <p class="card-text">Order status: {{ order.status }}</p>
+                    <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+
+{% endblock %}

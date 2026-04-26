@@ -1,0 +1,51 @@
+/* temporary styling copied from blog app */
+
+.page-header{
+    background-color: #c20000;
+    margin-top: 0;
+    margin-bottom: 40px;
+    padding: 20px 20px 20px 40px;
+}
+
+.page-header h1,
+.page-header h1 a,
+.page-header h1 a:visited,
+.page-header h1 a:active
+{
+    color: #ffffff;
+    font-size: 36pt;
+    text-decoration: none;
+}
+
+.title_lins{
+    font-family: "Alex Brush", cursive;
+    font-size: 50pt;
+}
+
+.title_alterations{
+    font-family: "Gravitas One", serif;
+}
+
+.back-button{
+    margin-bottom: 20px;
+}
+
+.order{
+    margin-bottom: 10px;
+}
+
+#carouselHome{
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.carousel-item{
+    height: 50vh;
+}
+
+.carousel-item img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #000000;
+}
