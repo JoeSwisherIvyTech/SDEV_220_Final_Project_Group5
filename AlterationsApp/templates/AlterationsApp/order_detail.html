@@ -1,2 +1,27 @@
 <!-- this page will show the details for a user's specific order. it is reached through clicking an order -->
  <!-- on the order_list page -->
+{% extends 'AlterationsApp/base.html' %}
+
+{% block content %}
+    <a class="btn btn-primary back-button" href="{% url 'order_list' %}">Back</a>
+
+    <article class="order">
+        <div class="card">
+                <div class="card-header">
+                    Order ID: {{ order.id }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
+                    <p class="card-text">Material: {{ order.material }}</p>
+                    <p class="card-text">Description: {{ order.description|linebreaksbr }}</p>
+                    <h5 class="card-title">Measurements:</h5>
+                    <p class="card-text">Chest: {{ order.chest }}</p>
+                    <p class="card-text">Waist: {{ order.waist }}</p>
+                    <p class="card-text">Hips: {{ order.hips }}</p>
+                    <p class="card-text">Inseam: {{ order.inseam }}</p>
+                    <p class="card-text">Order status: {{ order.status }}</p>
+                </div>
+            </div>
+    </article>
+
+{% endblock %}
