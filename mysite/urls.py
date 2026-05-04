@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # edited blog.urls to AlterationsApp.urls; not sure if correct
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
     path('', include('AlterationsApp.urls')),
 ]
