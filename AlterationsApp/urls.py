@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import SignUpView
 
 # add urlpatterns list https://tutorial.djangogirls.org/en/django_urls/
 
@@ -10,4 +11,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('order_list', views.order_list, name='order_list'),
     path('order/<int:pk>/', views.order_detail, name='order_detail'),
+    path('logout/', views.logout_view, name='logout'),
+    path('signup/', SignUpView.as_view(), name='signup'),
 ]
