@@ -7,6 +7,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from .forms import OrderForm
 
 # Create your views here.
 
@@ -35,3 +36,17 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name ='registration/signup.html'
+
+@login_required
+def order_request(request):
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.customer_name = request.user
+            order.status = 'pending'
+            order.save()
+            return redirect('order_list')
+    else:
+        form = OrderForm
+    return render(request, 'AlterationsApp/order_request.html', {'form' : form})
