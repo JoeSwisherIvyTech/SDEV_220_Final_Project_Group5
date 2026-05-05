@@ -15,6 +15,12 @@
                 <a button href="/logout" class="top-menu" style="background: none; border: none;">
                     <i>{% include './icons/door-closed.svg' %}</i>
                 </a>
+                {% if user.is_staff %}
+                    <p class="top-menu">staff</p>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <a class="top-menu" href="/admin">Admin Panel</a>
+                {% endif %}
             {% else %}
                 <a href="{% url 'login' %}" class="top-menu">
                     {% include './icons/door-open.svg' %}

@@ -14,8 +14,6 @@ class Order(models.Model):
     ]
 
     customer_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=20)
-    email = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
     alteration_type = models.CharField(max_length=100)
     material = models.CharField(max_length=100)
