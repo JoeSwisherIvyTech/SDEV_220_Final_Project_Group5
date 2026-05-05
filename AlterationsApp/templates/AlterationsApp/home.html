@@ -34,8 +34,7 @@
     <!-- testing out buttons with bootstrap -->
     <section>
         <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-primary" type="button">Request Alteration (not implemented)</button>
-            <!-- <button class="btn btn-primary" type="button">Check Status on Orders</button> -->
+            <a class="btn btn-primary" href="{% url 'order_request' %}">Request Alteration</a>
             <a class="btn btn-primary" href="{% url 'order_list' %}">Check Status on Orders</a>
         </div>
     </section>
