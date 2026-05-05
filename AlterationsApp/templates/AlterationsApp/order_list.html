@@ -5,6 +5,7 @@
 
 {% block content %}
     <a class="btn btn-primary back-button" href="{% url 'home' %}">Back</a>
+    <h2>Your Orders</h2>
     {% for order in orders %}
         <article class="order">
             <div class="card">
@@ -18,6 +19,8 @@
                 </div>
             </div>
         </article>
+    {% empty %}
+        <p>No orders found!</p>
     {% endfor %}
 
 {% endblock %}
