@@ -22,7 +22,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
                                 <p class="card-text">Assigned to: {{ order.assigned_staff }}</p>
-                                <p class="card-text">Order status: {{ order.status }}</p>
+                                <p class="card-text">Order status: {{ order.get_status_display }}</p>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
-                                <p class="card-text">Order status: {{ order.status }}</p>
+                                <p class="card-text">Order status: {{ order.get_status_display }}</p>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
-                                <p class="card-text">Order status: {{ order.status }}</p>
+                                <p class="card-text">Order status: {{ order.get_status_display }}</p>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                             </div>
                         </div>

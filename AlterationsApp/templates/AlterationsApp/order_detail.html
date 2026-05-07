@@ -19,7 +19,7 @@
                     <p class="card-text">Waist: {{ order.waist }}</p>
                     <p class="card-text">Hips: {{ order.hips }}</p>
                     <p class="card-text">Inseam: {{ order.inseam }}</p>
-                    <p class="card-text">Order status: {{ order.status }}</p>
+                    <p class="card-text">Order status: {{ order.get_status_display }}</p>
                     {% if user.is_staff %}
                         {% if order.assigned_staff %}
                             <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
