@@ -13,7 +13,8 @@ class Order(models.Model):
         ('cancelled', 'Cancelled'),
     ]
 
-    customer_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    customer_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer')
+    assigned_staff = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='assigned_staff')
     item = models.CharField(max_length=100)
     alteration_type = models.CharField(max_length=100)
     material = models.CharField(max_length=100)
@@ -26,6 +27,10 @@ class Order(models.Model):
     waist = models.FloatField()
     hips = models.FloatField()
     inseam = models.FloatField()
+
+    def assign_staff(self, staff_name):
+        self.assigned_staff = staff_name
+        self.save()
 
     def __str__(self):
         return f"{self.id} - {self.customer_name} - {self.item}"
