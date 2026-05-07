@@ -14,4 +14,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('order_request', views.order_request, name='order_request'),
+    path('order_manage', views.order_manage, name='order_manage'),
+    path('order/<int:pk>/accept_order/', views.accept_order, name='accept_order'),
 ]

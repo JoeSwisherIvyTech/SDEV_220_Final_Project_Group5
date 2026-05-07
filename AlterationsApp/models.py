@@ -51,11 +51,14 @@ class Order(models.Model):
         ('other', 'Other'),
     ]
 
-    customer_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    customer_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer')
+    assigned_staff = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='assigned_staff')
     item = models.CharField(max_length=100, choices=ITEM_CHOICES)
     alteration_type = models.CharField(max_length=100, choices=ALTERATION_CHOICES)
     material = models.CharField(max_length=100, choices=MATERIAL_CHOICES)
     description = models.TextField(null=True, blank=True)
+    
+    
 
     status = models.CharField(max_length=25, choices=STATUS_CHOICES)
 
@@ -64,6 +67,16 @@ class Order(models.Model):
     waist = models.FloatField(null=True, blank=True)
     hips = models.FloatField(null=True, blank=True)
     inseam = models.FloatField(null=True, blank=True)
+
+    def assign_staff(self, staff_name):
+        self.status = 'in_progress'
+        self.assigned_staff = staff_name
+        self.save()
+
+    def assign_staff(self, staff_name):
+        self.status = 'in_progress'
+        self.assigned_staff = staff_name
+        self.save()
 
     def __str__(self):
         return f"{self.id} - {self.customer_name} - {self.item}"

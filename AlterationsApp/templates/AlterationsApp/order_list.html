@@ -4,7 +4,7 @@
  {% extends 'AlterationsApp/base.html' %}
 
 {% block content %}
-    <a class="btn btn-primary back-button" href="{% url 'home' %}">Back</a>
+    <a class="btn btn-primary back-button" href="javascript:history.back()">Back</a>
     <h2>Your Orders</h2>
     {% for order in orders %}
         <article class="order">
@@ -14,7 +14,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
-                    <p class="card-text">Order status: {{ order.status }}</p>
+                    <p class="card-text">Order status: {{ order.get_status_display }}</p>
                     <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                 </div>
             </div>

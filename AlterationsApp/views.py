@@ -65,3 +65,17 @@ def order_request(request):
     else:
         form = OrderForm()
     return render(request, 'AlterationsApp/order_request.html', {'form' : form, 'error_message': error_message})
+
+@login_required
+def order_manage(request):
+    unassigned_orders = Order.objects.filter(assigned_staff__isnull=True).order_by('id')
+    assigned_orders = Order.objects.filter(assigned_staff=request.user).exclude(status='complete').order_by('id')
+    completed_orders = Order.objects.filter(assigned_staff=request.user, status='complete').order_by('id')
+    return render(request, 'AlterationsApp/order_manage.html', {'unassigned_orders' : unassigned_orders, 'assigned_orders' : assigned_orders, 'completed_orders' : completed_orders})
+
+@login_required
+def accept_order(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        order.assign_staff(request.user)
+    return redirect('order_manage')
