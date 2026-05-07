@@ -1,11 +1,68 @@
  {% extends 'AlterationsApp/base.html' %}
 
+
 {% block content %}
     <a class="btn btn-primary back-button" href="{% url 'home' %}">Back</a>
+<div class="form-container">
     <h2>Request an order</h2>
-    <form method="POST" class="order-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-primary">Request Order</button>
-    </form>
+    
+     {% if error_message %}
 
+        <div class="error-message">
+            {{ error_message }}
+        </div>
+
+    {% endif %}
+    
+
+    <form method="POST" class="order-form">{% csrf_token %}
+        <!--organizing how the form looks-->
+
+        <div class="form-group">
+            <label>Item</label>
+            {{ form.item }}
+        </div>
+
+        <div class="form-group">
+            <label>Alteration Type</label>
+            {{ form.alteration_type }}
+        </div>
+
+        <div class="form-group">
+            <label>Material</label>
+            {{ form.material }}
+        </div>
+
+        <h3>Measurements</h3>
+        <div class="measurement-grid">
+            <div class="form-group">
+                <label>Chest</label>
+                {{ form.chest }}
+            </div>
+
+            <div class="form-group">
+                <label>Waist</label>
+                {{ form.waist }}
+            </div>
+
+            <div class="form-group">
+                <label>Hips</label>
+                {{ form.hips }}
+            </div>
+
+            <div class="form-group">
+                <label>Inseam</label>
+                {{ form.inseam }}
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            {{ form.description }}
+        </div>
+
+        <button type="submit" class="submit-btn">Request Order</button>
+    </form>
+</div>
 {% endblock %}
