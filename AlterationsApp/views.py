@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Order
+from .models import Order, REQUIREMENTS
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -39,14 +39,29 @@ class SignUpView(CreateView):
 
 @login_required
 def order_request(request):
+    error_message = None
     if request.method == "POST":
         form = OrderForm(request.POST)
         if form.is_valid():
             order = form.save(commit=False)
-            order.customer_name = request.user
-            order.status = 'pending'
-            order.save()
-            return redirect('order_list')
+
+            item = order.item
+            alteration = order.alteration_type
+            
+            ##this is will make some measurements requried, changing based on your choices, ex. you need to hem your pants, i don't need chest measurement tho
+            key = (item, alteration)
+            required_fields = REQUIREMENTS.get(key, [])
+
+
+            for field in required_fields:
+                if not getattr(order,field, None):
+                    error_message = f"{field.replace('_', ' ').title()} is required"
+                    break
+            if not error_message:
+                order.customer_name = request.user
+                order.status = 'pending'
+                order.save()
+                return redirect('order_list')
     else:
-        form = OrderForm
-    return render(request, 'AlterationsApp/order_request.html', {'form' : form})
+        form = OrderForm()
+    return render(request, 'AlterationsApp/order_request.html', {'form' : form, 'error_message': error_message})
