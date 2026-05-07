@@ -67,6 +67,7 @@ class Order(models.Model):
     inseam = models.FloatField(null=True, blank=True)
 
     def assign_staff(self, staff_name):
+        self.status = 'in_progress'
         self.assigned_staff = staff_name
         self.save()
 
