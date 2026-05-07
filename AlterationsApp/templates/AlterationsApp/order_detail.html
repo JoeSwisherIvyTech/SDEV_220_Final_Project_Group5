@@ -3,7 +3,7 @@
 {% extends 'AlterationsApp/base.html' %}
 
 {% block content %}
-    <a class="btn btn-primary back-button" href="{% url 'order_list' %}">Back</a>
+    <a class="btn btn-primary back-button" href="javascript:history.back()">Back</a>
 
     <article class="order">
         <div class="card">
@@ -20,7 +20,21 @@
                     <p class="card-text">Hips: {{ order.hips }}</p>
                     <p class="card-text">Inseam: {{ order.inseam }}</p>
                     <p class="card-text">Order status: {{ order.status }}</p>
+                    {% if user.is_staff %}
+                        {% if order.assigned_staff %}
+                            <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
+                        {% endif %}
+                    {% endif %}
                 </div>
+                {% if user.is_staff %}
+                    {% if order.assigned_staff is None %}
+                        <div class="card-footer">
+                            <form method="Post" action="{% url 'accept_order' pk=order.pk %}">{% csrf_token %}
+                                <button type="submit" class="save btn btn-primary" name="accept">Accept Order</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
     </article>
 

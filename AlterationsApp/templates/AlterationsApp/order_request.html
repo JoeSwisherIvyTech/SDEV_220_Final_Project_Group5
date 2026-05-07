@@ -2,8 +2,7 @@
 
 
 {% block content %}
-    <a class="btn btn-primary back-button" href="{% url 'home' %}">Back</a>
-<div class="form-container">
+    <a class="btn btn-primary back-button" href="javascript:history.back()">Back</a>
     <h2>Request an order</h2>
     
      {% if error_message %}

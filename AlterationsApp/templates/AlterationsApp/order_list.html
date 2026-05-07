@@ -4,7 +4,7 @@
  {% extends 'AlterationsApp/base.html' %}
 
 {% block content %}
-    <a class="btn btn-primary back-button" href="{% url 'home' %}">Back</a>
+    <a class="btn btn-primary back-button" href="javascript:history.back()">Back</a>
     <h2>Your Orders</h2>
     {% for order in orders %}
         <article class="order">
