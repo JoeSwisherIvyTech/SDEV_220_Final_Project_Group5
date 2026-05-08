@@ -73,10 +73,6 @@ class Order(models.Model):
         self.assigned_staff = staff_name
         self.save()
 
-    def assign_staff(self, staff_name):
-        self.status = 'in_progress'
-        self.assigned_staff = staff_name
-        self.save()
 
     def __str__(self):
         return f"{self.id} - {self.customer_name} - {self.item}"
