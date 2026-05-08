@@ -20,3 +20,10 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
+
+class StatusForm(forms.ModelForm):
+    status = forms.ChoiceField()
+
+    class Meta:
+        model = Order
+        fields = {'status',}

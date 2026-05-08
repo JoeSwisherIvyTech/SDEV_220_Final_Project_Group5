@@ -79,3 +79,11 @@ def accept_order(request, pk):
     if request.method == 'POST':
         order.assign_staff(request.user)
     return redirect('order_manage')
+
+@login_required
+def update_order_status(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == "POST":
+        order.status = request.POST.get('status')
+        order.save()
+    return redirect('order_manage')

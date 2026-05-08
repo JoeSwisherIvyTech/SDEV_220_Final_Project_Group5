@@ -25,6 +25,20 @@
                                 <p class="card-text">Order status: {{ order.get_status_display }}</p>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                             </div>
+                            <div class="card-footer">
+                                <div class="align-items-center">
+                                <form method="POST" action="{% url 'update_order_status' pk=order.pk %}" class="d-flex align-items-center gap-2">{% csrf_token %}
+                                    <select name="status" class="form-select w-auto">
+                                        {% for value, label in order.STATUS_CHOICES %}
+                                            <option value="{{ value }}" {% if order.status == value %}selected="selected"{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="save btn btn-primary w-auto">Update Status</button>
+                                </form>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 {% empty %}
@@ -52,6 +66,9 @@
                                 <p class="card-text">Order status: {{ order.get_status_display }}</p>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                             </div>
+                            <div class="card-footer">
+                                Click "More Details" to view and accept this order.
+                            </div>
                         </div>
                     </article>
                 {% empty %}
@@ -78,6 +95,20 @@
                                 <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
                                 <p class="card-text">Order status: {{ order.get_status_display }}</p>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
+                            </div>
+                            <div class="card-footer">
+                                <div class="align-items-center">
+                                <form method="POST" action="{% url 'update_order_status' pk=order.pk %}" class="d-flex align-items-center gap-2">{% csrf_token %}
+                                    <select name="status" class="form-select w-auto">
+                                        {% for value, label in order.STATUS_CHOICES %}
+                                            <option value="{{ value }}" {% if order.status == value %}selected="selected"{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="save btn btn-primary w-auto">Update Status</button>
+                                </form>
+                                </div>
                             </div>
                         </div>
                     </article>
