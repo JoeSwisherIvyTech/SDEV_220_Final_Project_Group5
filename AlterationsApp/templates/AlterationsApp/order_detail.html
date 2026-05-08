@@ -20,20 +20,17 @@
                     <p class="card-text">Hips: {{ order.hips }}</p>
                     <p class="card-text">Inseam: {{ order.inseam }}</p>
                     <p class="card-text">Order status: {{ order.get_status_display }}</p>
-                    {% if user.is_staff %}
-                        {% if order.assigned_staff %}
-                            <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
-                        {% endif %}
-                    {% endif %}
                 </div>
                 {% if user.is_staff %}
-                    {% if order.assigned_staff is None %}
-                        <div class="card-footer">
+                <div class="card-footer">
+                            {% if order.assigned_staff is None %}
                             <form method="Post" action="{% url 'accept_order' pk=order.pk %}">{% csrf_token %}
                                 <button type="submit" class="save btn btn-primary" name="accept">Accept Order</button>
                             </form>
+                            {% else %}
+                                <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
+                            {% endif %}
                         </div>
-                    {% endif %}
                 {% endif %}
             </div>
     </article>
