@@ -20,6 +20,31 @@
                     <p class="card-text">Hips: {{ order.hips }}</p>
                     <p class="card-text">Inseam: {{ order.inseam }}</p>
                     <p class="card-text">Order status: {{ order.get_status_display }}</p>
+                    <div class="progress border border-black" style="height: 40px;">
+                        {% if order.status != 'cancelled' and order.status != 'complete' %}
+                            <div class="progress-bar border border-black {% if order.status == 'pending' %} bg-info progress-bar-striped progress-bar-animated {% else %} bg-info-subtle {% endif %}" role="progressbar" aria-label="Segment one" style="width: 25%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                <p class="{% if order.status == 'pending' %}progress-bar-text-current{% else %}progress-bar-text{% endif %}">Pending</p>
+                            </div>
+                            {% if order.status == 'in_progress' or order.status == 'ready' %}
+                                <div class="progress-bar border border-black {% if order.status == 'in_progress' %} bg-warning progress-bar-striped progress-bar-animated {% else %} bg-warning-subtle {% endif %}" role="progressbar" aria-label="Segment two" style="width: 25%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <p class="{% if order.status == 'in_progress' %}progress-bar-text-current{% else %}progress-bar-text{% endif %}">In Progress</p>
+                                </div>
+                            {% endif %}
+                            {% if order.status == 'ready' %}
+                                <div class="progress-bar border border-black bg-ready-for-pickup progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Segment three" style="width: 25%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <p class="{% if order.status == 'ready' %}progress-bar-text-current{% else %}progress-bar-text{% endif %}">Ready for Pickup</p>
+                                </div>
+                            {% endif %}
+                        {% elif order.status == 'complete' %}
+                            <div class="progress-bar bg-success" role="progressbar" aria-label="Segment one" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                <p class="progress-bar-text-current">Order complete!</p>
+                            </div>
+                        {% elif order.status == 'cancelled' %}
+                            <div class="progress-bar bg-secondary" role="progressbar" aria-label="Segment one" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                <p class="progress-bar-text-current">Order cancelled</p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
                 {% if user.is_staff %}
                 <div class="card-footer">
