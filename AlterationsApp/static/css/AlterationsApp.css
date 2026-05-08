@@ -127,3 +127,8 @@
     margin-bottom: 20px;
     font-weight: bold;
 }
+
+.bg-ready-for-pickup{
+    background-color: #c58bb5;
+    color: white;
+}
