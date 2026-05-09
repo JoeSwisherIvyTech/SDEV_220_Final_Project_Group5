@@ -7,8 +7,15 @@
 
     <article class="order">
         <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     Order ID: {{ order.id }}
+                    {% if order.customer_name == request.user %}
+                        {% if order.status == 'pending' or order.status == 'in_progress' %} 
+                            <form method="Post" action="{% url 'cancel_order' pk=order.pk %}">{% csrf_token %}
+                                <button type="submit" class="save btn btn-dark" name="cancel">Cancel Order</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>

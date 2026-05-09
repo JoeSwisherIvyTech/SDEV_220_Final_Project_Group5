@@ -87,3 +87,11 @@ def update_order_status(request, pk):
         order.status = request.POST.get('status')
         order.save()
     return redirect('order_manage')
+
+@login_required
+def cancel_order(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == "POST":
+        order.status = 'cancelled'
+        order.save()
+    return redirect('order_list')
