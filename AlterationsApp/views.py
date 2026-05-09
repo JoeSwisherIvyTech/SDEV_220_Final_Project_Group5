@@ -95,3 +95,23 @@ def cancel_order(request, pk):
         order.status = 'cancelled'
         order.save()
     return redirect('order_list')
+
+@login_required
+def delete_order(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        order.delete()
+    return redirect('order_manage')
+
+@login_required
+def order_edit(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.save()
+            return redirect('order_detail', pk=order.pk)
+    else:
+        form = OrderForm(instance=order)
+    return render(request, 'AlterationsApp/order_request.html', {'form' : form})

@@ -62,7 +62,7 @@
             {{ form.description }}
         </div>
 
-        <button type="submit" class="submit-btn">Request Order</button>
+        <button type="submit" class="submit-btn">{% if form.instance.pk %}Update Order{% else %}Request Order{% endif %}</button>
     </form>
 </div>
 {% endblock %}

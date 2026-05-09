@@ -7,15 +7,25 @@
 
     <article class="order">
         <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header d-flex">
                     Order ID: {{ order.id }}
+                    <div class="ms-auto d-flex">
                     {% if order.customer_name == request.user %}
-                        {% if order.status == 'pending' or order.status == 'in_progress' %} 
-                            <form method="Post" action="{% url 'cancel_order' pk=order.pk %}">{% csrf_token %}
-                                <button type="submit" class="save btn btn-dark" name="cancel">Cancel Order</button>
+                    {% if order.status == 'pending' or order.status == 'in_progress' %} 
+                            <form method="POST" action="{% url 'cancel_order' pk=order.pk %}">{% csrf_token %}
+                                <button type="submit" class="save btn btn-dark mx-2" name="cancel">Cancel Order</button>
                             </form>
                         {% endif %}
                     {% endif %}
+                    {% if user.is_superuser %}
+                            <a class="btn btn-info mx-2" href="{% url 'order_edit' pk=order.pk %}">
+                                Edit Order
+                            </a>
+                            <form method="POST" action="{% url 'delete_order' pk=order.pk %}">{% csrf_token %}
+                                <button type="submit" class="save btn btn-danger mx-2" name="delete">Delete Order</button>
+                            </form>
+                    {% endif %}
+                    </div>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
