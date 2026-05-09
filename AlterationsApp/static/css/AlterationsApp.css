@@ -12,7 +12,7 @@
 .page-header h1 a:visited,
 .page-header h1 a:active
 {
-    color: #ffffff;
+    color: white;
     font-size: 36pt;
     text-decoration: none;
 }
@@ -53,7 +53,7 @@
 .top-menu,
 .top-menu:hover,
 .top-menu:visited{
-    color: #ffffff;
+    color: white;
     float: right;
     font-size: 26pt;
     margin-right: 20px;
@@ -131,4 +131,25 @@
 .bg-ready-for-pickup{
     background-color: #c58bb5;
     color: white;
+}
+
+.btn-primary {
+    background-color: #d8a7ca;
+    border: 2 px solid #d8a7ca;
+    color: white;
+    border-color: #d8a7ca;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    border: 2px solid #d8a7ca;
+    color: #d8a7ca;
+}
+
+.home-slogan {
+    text-align: center;
+    font-family: "Gravitas One", serif;
+    font-size: 42pt;
+    margin-bottom: 20px;
 }
