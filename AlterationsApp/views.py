@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Order, REQUIREMENTS
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from .forms import RegistrationForm
@@ -78,7 +79,7 @@ def order_request(request):
         form = OrderForm()
     return render(request, 'AlterationsApp/order_request.html', {'form' : form, 'error_message': error_message})
 
-@login_required
+@staff_member_required(login_url='/accounts/login/')
 def order_manage(request):
     base_orders = Order.objects.annotate(
         status_priority=Case(
@@ -92,19 +93,20 @@ def order_manage(request):
         )
     ).order_by('status_priority', '-id')
 
-    unassigned_orders = base_orders.filter(assigned_staff__isnull=True)
+    all_orders = base_orders
+    unassigned_orders = base_orders.filter(assigned_staff__isnull=True).exclude(status='cancelled')
     assigned_orders = base_orders.filter(assigned_staff=request.user).exclude(status='complete')
     completed_orders = base_orders.filter(assigned_staff=request.user, status='complete')
-    return render(request, 'AlterationsApp/order_manage.html', {'unassigned_orders' : unassigned_orders, 'assigned_orders' : assigned_orders, 'completed_orders' : completed_orders})
+    return render(request, 'AlterationsApp/order_manage.html', {'unassigned_orders' : unassigned_orders, 'assigned_orders' : assigned_orders, 'completed_orders' : completed_orders, 'all_orders' : all_orders})
 
-@login_required
+@staff_member_required(login_url='/accounts/login/')
 def accept_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if request.method == 'POST':
         order.assign_staff(request.user)
     return redirect('order_manage')
 
-@login_required
+@staff_member_required(login_url='/accounts/login/')
 def update_order_status(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if request.method == "POST":
@@ -120,14 +122,14 @@ def cancel_order(request, pk):
         order.save()
     return redirect('order_list')
 
-@login_required
+@staff_member_required(login_url='/accounts/login/')
 def delete_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if request.method == 'POST':
         order.delete()
     return redirect('order_manage')
 
-@login_required
+@staff_member_required(login_url='/accounts/login/')
 def order_edit(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if request.method == 'POST':
@@ -140,7 +142,7 @@ def order_edit(request, pk):
         form = OrderForm(instance=order)
     return render(request, 'AlterationsApp/order_request.html', {'form' : form})
 
-@login_required
+@staff_member_required(login_url='/accounts/login/')
 def assign_staff(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if request.method == "POST":
