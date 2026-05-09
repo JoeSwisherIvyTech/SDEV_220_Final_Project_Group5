@@ -64,15 +64,27 @@
                     </div>
                 </div>
                 {% if user.is_staff %}
-                <div class="card-footer">
-                            {% if order.assigned_staff is None %}
+                    <div class="card-footer d-flex">
+                        {% if order.assigned_staff is None %}
                             <form method="Post" action="{% url 'accept_order' pk=order.pk %}">{% csrf_token %}
                                 <button type="submit" class="save btn btn-primary" name="accept">Accept Order</button>
                             </form>
-                            {% else %}
-                                <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
-                            {% endif %}
-                        </div>
+                        {% else %}
+                            <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            <form method="POST" action="{% url 'assign_staff' pk=order.pk %}" class="d-flex align-items-center gap-2 ms-auto">{% csrf_token %}
+                                    <select name="assigned_staff" class="form-select w-auto">
+                                        {% for staff_member in staff %}
+                                            <option value="{{ staff_member.id }}" {% if order.assigned_staff == staff_member.username %}selected="selected"{% endif %}>
+                                                {{ staff_member.username }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="save btn btn-primary w-auto">Assign Staff</button>
+                                </form>
+                        {% endif %}
+                    </div>
                 {% endif %}
             </div>
     </article>

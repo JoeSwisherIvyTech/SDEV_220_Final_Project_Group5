@@ -8,6 +8,7 @@ from .forms import RegistrationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from .forms import OrderForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -26,7 +27,8 @@ def order_list(request):
 @login_required
 def order_detail(request, pk):
     order = get_object_or_404(Order, pk=pk)
-    return render(request, 'AlterationsApp/order_detail.html', {'order' : order})
+    staff = User.objects.filter(is_staff=True)
+    return render(request, 'AlterationsApp/order_detail.html', {'order' : order, 'staff' : staff})
 
 def logout_view(request):
     logout(request)
@@ -115,3 +117,15 @@ def order_edit(request, pk):
     else:
         form = OrderForm(instance=order)
     return render(request, 'AlterationsApp/order_request.html', {'form' : form})
+
+@login_required
+def assign_staff(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == "POST":
+        staff_id = request.POST.get("assigned_staff")
+        if staff_id:
+            order.assigned_staff = User.objects.get(pk=staff_id)
+            if order.status == "pending":
+                order.status = "in_progress"
+            order.save()
+    return redirect('order_detail', pk=order.pk)
