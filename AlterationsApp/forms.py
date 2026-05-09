@@ -7,7 +7,7 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         # add what fields the form needs as strings
-        fields = ['item', 'alteration_type', 'material', 'description', 'chest', 'waist', 'hips', 'inseam',]
+        fields = {'item', 'alteration_type', 'material', 'description', 'chest', 'waist', 'hips', 'inseam', 'chest', 'shoulders', 'sleeve_length', 'bust'}
 
 # code to extend UserCreationForm from @colinnatjku on medium's "Customizing Django UserCreationForm" article
 class RegistrationForm(UserCreationForm):
