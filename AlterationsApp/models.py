@@ -67,6 +67,10 @@ class Order(models.Model):
     waist = models.FloatField(null=True, blank=True)
     hips = models.FloatField(null=True, blank=True)
     inseam = models.FloatField(null=True, blank=True)
+    sleeve_length = models.FloatField(null=True, blank=True)
+    shoulders = models.FloatField(null=True, blank=True)
+    bust = models.FloatField(null=True, blank=True)
+    
 
     def assign_staff(self, staff_name):
         self.status = 'in_progress'

@@ -8,7 +8,7 @@ from .forms import RegistrationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from .forms import OrderForm
-
+from django.db.models import Case, When, Value, IntegerField
 # Create your views here.
 
 # need order_list
@@ -20,7 +20,17 @@ def home(request):
 # need to filter orders by user
 @login_required
 def order_list(request):
-    orders = Order.objects.filter(customer_name=request.user).order_by('id')
+    orders = Order.objects.filter(customer_name=request.user).annotate(
+        status_priority=Case(
+            When(status='ready', then=Value(1)),
+            When(status='in_progress', then=Value(2)),
+            When(status='pending', then=Value(3)),
+            When(status='cancelled', then=Value(5)),
+            When(status='complete', then=Value(4)),
+            default=Value(6),
+            output_field=IntegerField(),
+        )
+    ).order_by('status_priority', '-id')
     return render(request, 'AlterationsApp/order_list.html', {'orders' : orders})
 
 @login_required
@@ -68,9 +78,21 @@ def order_request(request):
 
 @login_required
 def order_manage(request):
-    unassigned_orders = Order.objects.filter(assigned_staff__isnull=True).order_by('id')
-    assigned_orders = Order.objects.filter(assigned_staff=request.user).exclude(status='complete').order_by('id')
-    completed_orders = Order.objects.filter(assigned_staff=request.user, status='complete').order_by('id')
+    base_orders = Order.objects.annotate(
+        status_priority=Case(
+            When(status='ready', then=Value(0)),
+            When(status='in_progress', then=Value(1)),
+            When(status='pending', then=Value(2)),
+            When(status='cancelled', then=Value(3)),
+            When(status='complete', then=Value(4)),
+            default=Value(5),
+            output_field=IntegerField(),
+        )
+    ).order_by('status_priority', '-id')
+
+    unassigned_orders = base_orders.filter(assigned_staff__isnull=True)
+    assigned_orders = base_orders.filter(assigned_staff=request.user).exclude(status='complete')
+    completed_orders = base_orders.filter(assigned_staff=request.user, status='complete')
     return render(request, 'AlterationsApp/order_manage.html', {'unassigned_orders' : unassigned_orders, 'assigned_orders' : assigned_orders, 'completed_orders' : completed_orders})
 
 @login_required
