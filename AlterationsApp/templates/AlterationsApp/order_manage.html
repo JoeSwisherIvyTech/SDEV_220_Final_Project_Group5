@@ -61,7 +61,7 @@
                                 Order ID: {{ order.id }} <span class="badge rounded-pill {% if order.status == 'pending' %} bg-info {% elif order.status == 'in_progress' %} bg-warning {% elif order.status == 'complete' %} bg-success {% elif order.status == 'cancelled' %} bg-dark {% elif order.status == 'ready' %} bg-ready-for-pickup {% endif %} mx-3"> Status: {{ order.get_status_display }}</span>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
+                                <h5 class="card-title">{{ order.get_item_display }}: {{ order.get_alteration_type_display }}</h5>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                             </div>
                             <div class="card-footer">
@@ -90,7 +90,7 @@
                                 Order ID: {{ order.id }} <span class="badge rounded-pill {% if order.status == 'pending' %} bg-info {% elif order.status == 'in_progress' %} bg-warning {% elif order.status == 'complete' %} bg-success {% elif order.status == 'cancelled' %} bg-dark {% elif order.status == 'ready' %} bg-ready-for-pickup {% endif %} mx-3"> Status: {{ order.get_status_display }}</span>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
+                                <h5 class="card-title">{{ order.get_item_display }}: {{ order.get_alteration_type_display }}</h5>
                                 <p class="card-text">Assigned to: {{ order.assigned_staff }}</p>
                                 <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                             </div>
@@ -116,6 +116,49 @@
             </div>
             </div>
         </div>
+        {% if user.is_superuser %}
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                All Orders
+            </button>
+            </h2>
+            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                {% for order in all_orders %}
+                    <article class="order">
+                        <div class="card">
+                            <div class="card-header">
+                                Order ID: {{ order.id }} <span class="badge rounded-pill {% if order.status == 'pending' %} bg-info {% elif order.status == 'in_progress' %} bg-warning {% elif order.status == 'complete' %} bg-success {% elif order.status == 'cancelled' %} bg-dark {% elif order.status == 'ready' %} bg-ready-for-pickup {% endif %} mx-3"> Status: {{ order.get_status_display }}</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ order.get_item_display }}: {{ order.get_alteration_type_display }}</h5>
+                                <p class="card-text">Assigned to: {{ order.assigned_staff }}</p>
+                                <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
+                            </div>
+                            <div class="card-footer">
+                                <div class="align-items-center">
+                                <form method="POST" action="{% url 'update_order_status' pk=order.pk %}" class="d-flex align-items-center gap-2">{% csrf_token %}
+                                    <select name="status" class="form-select w-auto">
+                                        {% for value, label in order.STATUS_CHOICES %}
+                                            <option value="{{ value }}" {% if order.status == value %}selected="selected"{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="save btn btn-primary w-auto">Update Status</button>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p>No orders!</p>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
     
 
