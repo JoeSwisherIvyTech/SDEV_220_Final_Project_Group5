@@ -26,4 +26,11 @@ class StatusForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = {'status',}
+        fields = ['status',]
+
+class AssignEmployeeForm(forms.ModelForm):
+    assigned_staff = forms.ModelChoiceField(queryset=User.objects.filter(is_staff=True))
+
+    class Meta:
+        model = Order
+        fields = ['assigned_staff',]

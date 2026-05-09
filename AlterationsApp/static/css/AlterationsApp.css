@@ -129,7 +129,7 @@
 }
 
 .bg-ready-for-pickup{
-    background-color: #c58bb5;
+    background-color: #c778b0;
     color: white;
 }
 
@@ -152,4 +152,16 @@
     font-family: "Gravitas One", serif;
     font-size: 42pt;
     margin-bottom: 20px;
+}
+
+.progress-bar-text-current{
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 2px #000000;
+}
+
+.progress-bar-text{
+    font-size: 18px;
+    font-weight: bold;
+    color: lightgray;
 }

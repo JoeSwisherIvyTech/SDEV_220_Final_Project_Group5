@@ -7,12 +7,29 @@
 
     <article class="order">
         <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex">
                     Order ID: {{ order.id }}
+                    <div class="ms-auto d-flex">
+                    {% if order.customer_name == request.user %}
+                    {% if order.status == 'pending' or order.status == 'in_progress' %} 
+                            <form method="POST" action="{% url 'cancel_order' pk=order.pk %}">{% csrf_token %}
+                                <button type="submit" class="save btn btn-dark mx-2" name="cancel">Cancel Order</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                    {% if user.is_superuser %}
+                            <a class="btn btn-info mx-2" href="{% url 'order_edit' pk=order.pk %}">
+                                Edit Order
+                            </a>
+                            <form method="POST" action="{% url 'delete_order' pk=order.pk %}">{% csrf_token %}
+                                <button type="submit" class="save btn btn-danger mx-2" name="delete">Delete Order</button>
+                            </form>
+                    {% endif %}
+                    </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
-                    <p class="card-text">Material: {{ order.material }}</p>
+                    <h5 class="card-title">{{ order.get_item_display }}: {{ order.get_alteration_type_display }}</h5>
+                    <p class="card-text">Material: {{ order.get_material_display }}</p>
                     <p class="card-text">Description: {{ order.description|linebreaksbr }}</p>
                     <h5 class="card-title">Measurements:</h5>
                     <p class="card-text">Chest: {{ order.chest }}</p>
@@ -21,20 +38,57 @@
                     <p class="card-text">Inseam: {{ order.inseam }}</p>
                     <p class="card-text">Chest: {{ order.chest }}</p>
                     <p class="card-text">Sleeve Length: {{ order.sleeve_length }}</p>
-                    <p class="card-text">Shoulder: {{ order.shoulder }}</p>
+                    <p class="card-text">Shoulder: {{ order.shoulders }}</p>
                     <p class="card-text">Bust: {{ order.bust }}</p>
                     <p class="card-text">Order status: {{ order.get_status_display }}</p>
+                    <div class="progress border border-black" style="height: 40px;">
+                        {% if order.status != 'cancelled' and order.status != 'complete' %}
+                            <div class="progress-bar border border-black {% if order.status == 'pending' %} bg-info progress-bar-striped progress-bar-animated {% else %} bg-info-subtle {% endif %}" role="progressbar" aria-label="Segment one" style="width: 25%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                <p class="{% if order.status == 'pending' %}progress-bar-text-current{% else %}progress-bar-text{% endif %}">Pending</p>
+                            </div>
+                            {% if order.status == 'in_progress' or order.status == 'ready' %}
+                                <div class="progress-bar border border-black {% if order.status == 'in_progress' %} bg-warning progress-bar-striped progress-bar-animated {% else %} bg-warning-subtle {% endif %}" role="progressbar" aria-label="Segment two" style="width: 25%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <p class="{% if order.status == 'in_progress' %}progress-bar-text-current{% else %}progress-bar-text{% endif %}">In Progress</p>
+                                </div>
+                            {% endif %}
+                            {% if order.status == 'ready' %}
+                                <div class="progress-bar border border-black bg-ready-for-pickup progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Segment three" style="width: 25%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <p class="{% if order.status == 'ready' %}progress-bar-text-current{% else %}progress-bar-text{% endif %}">Ready for Pickup</p>
+                                </div>
+                            {% endif %}
+                        {% elif order.status == 'complete' %}
+                            <div class="progress-bar bg-success" role="progressbar" aria-label="Segment one" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                <p class="progress-bar-text-current">Order complete!</p>
+                            </div>
+                        {% elif order.status == 'cancelled' %}
+                            <div class="progress-bar bg-secondary" role="progressbar" aria-label="Segment one" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                <p class="progress-bar-text-current">Order cancelled</p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
                 {% if user.is_staff %}
-                <div class="card-footer">
-                            {% if order.assigned_staff is None %}
+                    <div class="card-footer d-flex">
+                        {% if order.assigned_staff is None %}
                             <form method="Post" action="{% url 'accept_order' pk=order.pk %}">{% csrf_token %}
                                 <button type="submit" class="save btn btn-primary" name="accept">Accept Order</button>
                             </form>
-                            {% else %}
-                                <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
-                            {% endif %}
-                        </div>
+                        {% else %}
+                            <p class="card-text">Assigned staff: {{ order.assigned_staff }}</p>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            <form method="POST" action="{% url 'assign_staff' pk=order.pk %}" class="d-flex align-items-center gap-2 ms-auto">{% csrf_token %}
+                                    <select name="assigned_staff" class="form-select w-auto">
+                                        {% for staff_member in staff %}
+                                            <option value="{{ staff_member.id }}" {% if order.assigned_staff == staff_member.username %}selected="selected"{% endif %}>
+                                                {{ staff_member.username }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="save btn btn-primary w-auto">Assign Staff</button>
+                                </form>
+                        {% endif %}
+                    </div>
                 {% endif %}
             </div>
     </article>
