@@ -13,7 +13,7 @@
                     Order ID: {{ order.id }} <span class="badge rounded-pill {% if order.status == 'pending' %} bg-info {% elif order.status == 'in_progress' %} bg-warning {% elif order.status == 'complete' %} bg-success {% elif order.status == 'cancelled' %} bg-dark {% elif order.status == 'ready' %} bg-ready-for-pickup {% endif %} mx-3"> Status: {{ order.get_status_display }}</span>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
+                    <h5 class="card-title">{{ order.get_item_display }}: {{ order.get_alteration_type_display }}</h5>
                     <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-primary">More Details</a>
                 </div>
             </div>

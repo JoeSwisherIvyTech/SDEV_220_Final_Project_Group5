@@ -28,8 +28,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ order.item }}: {{ order.alteration_type }}</h5>
-                    <p class="card-text">Material: {{ order.material }}</p>
+                    <h5 class="card-title">{{ order.get_item_display }}: {{ order.get_alteration_type_display }}</h5>
+                    <p class="card-text">Material: {{ order.get_material_display }}</p>
                     <p class="card-text">Description: {{ order.description|linebreaksbr }}</p>
                     <h5 class="card-title">Measurements:</h5>
                     <p class="card-text">Chest: {{ order.chest }}</p>
@@ -38,7 +38,7 @@
                     <p class="card-text">Inseam: {{ order.inseam }}</p>
                     <p class="card-text">Chest: {{ order.chest }}</p>
                     <p class="card-text">Sleeve Length: {{ order.sleeve_length }}</p>
-                    <p class="card-text">Shoulder: {{ order.shoulder }}</p>
+                    <p class="card-text">Shoulder: {{ order.shoulders }}</p>
                     <p class="card-text">Bust: {{ order.bust }}</p>
                     <p class="card-text">Order status: {{ order.get_status_display }}</p>
                     <div class="progress border border-black" style="height: 40px;">
