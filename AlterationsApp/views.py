@@ -119,6 +119,7 @@ def cancel_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
     if request.method == "POST":
         order.status = 'cancelled'
+        order.assigned_staff_id = None
         order.save()
     return redirect('order_list')
 
