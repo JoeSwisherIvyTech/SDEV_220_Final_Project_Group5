@@ -5,11 +5,21 @@ from django.db import models
 
 REQUIREMENTS = {
     ('pants', 'hem'): ['inseam'],
-    ('pants', 'resize'): ['waist'],
-    ('dress', 'resize'): ['chest', 'waist', 'hips'],
-    ('shirt', 'resize'): ['chest'],
+    ('pants', 'resize'): ['waist', 'hips'],
+
+    ('dress', 'resize'): ['chest', 'waist', 'hips', 'bust'],
+    ('dress', 'hem'): ['inseam'],
+
+    ('shirt', 'resize'): ['chest', 'waist'],
+    ('shirt', 'hem'): ['inseam'],
     ('shirt', 'shorten_sleeves'): ['sleeve_length'],
+
+    ('suit', 'shorten_sleeves'): ['sleeve_length'],
+    ('suit', 'pants_hem'): ['inseam'],
     ('suit', 'resize'): ['chest', 'waist', 'shoulders'],
+
+    ('skirt', 'hem'): ['waist'],
+    ('skirt', 'resize'): ['waist', 'hips']
 }
 # This is where we create the classes for our database
 class Order(models.Model):
