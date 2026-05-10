@@ -81,7 +81,11 @@
 
         <div class="form-group">
             <label>Description</label>
-            {{ form.description }}
+                <textarea 
+                    name="description"
+                    class="form-control"
+                    placeholder="Tell us what needs done. ex. Do you want the item tighter, looser, shorter, or longer? Where would you like the item to sit, at the ankles, around your knees?"
+                    >{{ form.description.value|default_if_none:"" }}</textarea>
         </div>
 
         <button type="submit" class="submit-btn">{% if form.instance.pk %}Update Order{% else %}Request Order{% endif %}</button>

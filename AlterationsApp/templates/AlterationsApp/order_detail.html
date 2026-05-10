@@ -31,15 +31,20 @@
                     <h5 class="card-title">{{ order.get_item_display }}: {{ order.get_alteration_type_display }}</h5>
                     <p class="card-text">Material: {{ order.get_material_display }}</p>
                     {% if order.description %} <p class="card-text">Description: {{ order.description|linebreaksbr }}</p> {% endif %}
-                    <h5 class="card-title">Measurements:</h5>
-                    {% if order.chest %} <p class="card-text">Chest: {{ order.chest }}</p> {% endif %}
-                    {% if order.waist %} <p class="card-text">Waist: {{ order.waist }}</p>   {% endif %}
-                    {% if order.hips %} <p class="card-text">Hips: {{ order.hips }}</p>      {% endif %}
-                    {% if order.inseam %} <p class="card-text">Inseam: {{ order.inseam }}</p> {% endif %}
-                    {% if order.chest %} <p class="card-text">Chest: {{ order.chest }}</p> {% endif %}
-                    {% if order.sleeve_length %} <p class="card-text">Sleeve Length: {{ order.sleeve_length }}</p> {% endif %}
-                    {% if order.shoulders %} <p class="card-text">Shoulder: {{ order.shoulders }}</p> {% endif %}
-                    {% if order.bust %} <p class="card-text">Bust: {{ order.bust }}</p> {% endif %}
+
+                    {% if order.chest or order.waist or order.hips or order.inseam or order.sleeve_length or order.shoulders or order.bust %}
+                        <h5 class="card-title">Measurements:</h5>
+                        {% if order.chest %} <p class="card-text">Chest: {{ order.chest }}</p> {% endif %}
+                        {% if order.waist %} <p class="card-text">Waist: {{ order.waist }}</p>   {% endif %}
+                        {% if order.hips %} <p class="card-text">Hips: {{ order.hips }}</p>      {% endif %}
+                        {% if order.inseam %} <p class="card-text">Inseam: {{ order.inseam }}</p> {% endif %}
+                        {% if order.chest %} <p class="card-text">Chest: {{ order.chest }}</p> {% endif %}
+                        {% if order.sleeve_length %} <p class="card-text">Sleeve Length: {{ order.sleeve_length }}</p> {% endif %}
+                        {% if order.shoulders %} <p class="card-text">Shoulder: {{ order.shoulders }}</p> {% endif %}
+                        {% if order.bust %} <p class="card-text">Bust: {{ order.bust }}</p> {% endif %}
+                    {% endif %}
+
+
                     <p class="card-text">Order status: {{ order.get_status_display }}</p>
                     <div class="progress border border-black" style="height: 40px;">
                         {% if order.status != 'cancelled' and order.status != 'complete' %}
